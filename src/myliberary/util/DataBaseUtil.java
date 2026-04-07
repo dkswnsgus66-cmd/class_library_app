@@ -13,17 +13,15 @@ public class DataBaseUtil {
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String PASSWORD = System.getenv("DB_PASSWORD");
 
-    public Connection databaseUtil(){
-
+    public static Connection getDataBaseConnection() throws SQLException {
 
         // 데이터 베이스 연결
-        try (Connection connection = DriverManager.getConnection(URL, DB_USER, PASSWORD)) {
 
-          return connection;
+        Connection connection = DriverManager.getConnection(URL, DB_USER, PASSWORD);
+        System.out.println("데이터 베이스 연결성공");
+        return connection;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
 
     }
 
