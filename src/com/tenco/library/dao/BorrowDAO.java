@@ -105,10 +105,10 @@ public class BorrowDAO {
             while (rs.next()) {
                 Borrow borrow = Borrow.builder()
                         .id(rs.getInt("id"))
-                        .bookId(rs.getInt("book_id"))
-                        .studentId(rs.getInt("student_id"))
+                        .book_Id(rs.getInt("book_id"))
+                        .student_Id(rs.getInt("student_id"))
                         // rs.getDate() --> toLocalDate() -->   LocalDate 변환 됨.
-                        .borrowDate(
+                        .borrow_Date(
                                 rs.getDate("borrow_date") != null
                                         ? rs.getDate("borrow_date").toLocalDate()
                                         : null
