@@ -19,7 +19,7 @@ public class DatabaseUtil {
 
                 System.out.print(".");
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -27,11 +27,13 @@ public class DatabaseUtil {
         });
 
         thread.start();
+
         try {
             thread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
         Connection connection = DriverManager.getConnection(URL,DB_USER,PASSWORD);
         System.out.println();
         System.out.println(connection.getMetaData().getDatabaseProductName());

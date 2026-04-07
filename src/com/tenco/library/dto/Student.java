@@ -6,10 +6,9 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
 @ToString
 @NoArgsConstructor
-
+@Builder
 public class Student {
 
     private int id;
@@ -17,5 +16,10 @@ public class Student {
     private String student_Id;
 
 
+    @Builder
+    public Student(String name , String student_Id){
+        this.name = name;
+        this.student_Id = student_Id;
+    }
 
 }

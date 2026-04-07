@@ -22,9 +22,9 @@ public class BookDAO {
 
         try (Connection conn = DatabaseUtil.getConnection()) {
 
-            PreparedStatement psmt = conn.prepareStatement(sql);
+            PreparedStatement psmt = conn.prepareStatement(sql); // 연결한 sql 데이터 베이스에서 어떤 쿼리를 쓸지 정한다
 
-            psmt.setString(1, book.getTitle());
+            psmt.setString(1, book.getTitle()); // PrepareStatement 의 기능이다 setString 1번째 ? 기준으로 행당 값을 넣는다는기능
             psmt.setString(2, book.getAuthor());
             psmt.setString(3, book.getPublisher());
             psmt.setInt(4, book.getPulication_Year());
@@ -46,14 +46,10 @@ public class BookDAO {
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)
         ) {
-
-
             ResultSet rs = psmt.executeQuery();
 
             while (rs.next()) {
-
                 bookList.add(mapToBook(rs));
-
             }
         }
         return bookList;
