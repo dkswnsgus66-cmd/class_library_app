@@ -1,8 +1,7 @@
-package com.tenco.library.dao;
+package myliberary.dao;
 
 import com.tenco.library.dto.Student;
 import com.tenco.library.util.DatabaseUtil;
-import myliberary.util.DataBaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,7 +61,6 @@ public class StudentDAO {
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
             psmt.setString(1, student_id);
-
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
                     mapToStudent(rs);

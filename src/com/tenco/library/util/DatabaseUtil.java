@@ -12,32 +12,32 @@ public class DatabaseUtil {
 
     // 이 클래스의 역할 : 새로운 DB연결 객체를 반환합니다
     public static Connection getConnection() throws SQLException {
-        // 재미삼아 효과 만들어 보기
-        Thread thread = new Thread(() -> {
-            System.out.print("Connecting to database");
-            for(int i = 0 ; i < 5 ; i++){
-
-                System.out.print(".");
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        // 재미삼아 효과 만들어 보기
+//        Thread thread = new Thread(() -> {
+//            System.out.print("Connecting to database");
+//            for(int i = 0 ; i < 5 ; i++){
+//
+//                System.out.print(".");
+//                try {
+//                    Thread.sleep(200);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//
+//        try {
+//            thread.join();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         Connection connection = DriverManager.getConnection(URL,DB_USER,PASSWORD);
         System.out.println();
-        System.out.println(connection.getMetaData().getDatabaseProductName());
-        System.out.println(connection.getMetaData().getDatabaseProductVersion());
+//        System.out.println(connection.getMetaData().getDatabaseProductName());
+//        System.out.println(connection.getMetaData().getDatabaseProductVersion());
         return connection;
 
 
