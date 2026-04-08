@@ -8,6 +8,7 @@ import com.tenco.library.dao.BookDAO;
 import com.tenco.library.dao.BorrowDAO;
 import com.tenco.library.dao.StudentDAO;
 import com.tenco.library.dto.Book;
+import com.tenco.library.dto.Borrow;
 import com.tenco.library.dto.Student;
 
 import java.sql.SQLException;
@@ -61,7 +62,7 @@ public class LibraryService {
     }
 
     // 전체 학생 목록 조회
-    public List<Student> getAllStudent() throws SQLException {
+    public List<Student> getAllStudents() throws SQLException {
         return studentDAO.getAllStudents();
     }
 
@@ -76,7 +77,13 @@ public class LibraryService {
         if(studentId == null || studentId.trim().isEmpty()){
             throw new SQLException("학번을 입력해 주세요");
         }
-        return studentDAO.authenticateStudent(studentId);
+
+        Student check = studentDAO.authenticateStudent(studentId);
+
+        if(check == null){ // 학생 조회했을때 데이터가 없을때
+            System.out.println("없는 학번입니다.");
+        }
+        return check;
     }
 
     // 도서 대출 요청
@@ -107,6 +114,15 @@ public class LibraryService {
             throw new SQLException("유효한 도서 아이디와 학생 아이디를 입력해 주세요.");
         }
         borrowDao.returnBook(bookId,studentId);
+
+    }
+
+    // 도서대출 목록 조회
+    public List<Borrow> borrowsList() throws SQLException {
+
+        BorrowDAO borrowDAO = new BorrowDAO();
+        System.out.println("===== 현재 대출 목록 =====");
+       return borrowDAO.getBorrowedBooks();
 
     }
 

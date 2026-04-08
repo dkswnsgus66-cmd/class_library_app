@@ -2,6 +2,7 @@ package com.tenco.library;
 
 
 import com.tenco.library.view.LibraryView;
+import com.tenco.library.view.LibraryView2;
 
 // 사용자 입출력을 처리하는 view클래스
 public class Main {

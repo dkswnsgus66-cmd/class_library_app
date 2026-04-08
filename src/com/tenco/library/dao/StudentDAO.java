@@ -43,10 +43,7 @@ public class StudentDAO {
         ) {
 
             while (rs.next()) {
-                Student student = new Student();
-
-               mapToStudent(rs);
-                studentList.add(student);
+                studentList.add(mapToStudent(rs));
             }
         }
         return studentList;
@@ -61,11 +58,14 @@ public class StudentDAO {
                 """;
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
+
             psmt.setString(1, student_id);
 
             try (ResultSet rs = psmt.executeQuery()) {
+
                 if (rs.next()) {
-                    mapToStudent(rs);
+
+                   return mapToStudent(rs);
 
                 }
             }
@@ -76,9 +76,6 @@ public class StudentDAO {
     // ResultSet -> Student 변환 메소드
     private Student mapToStudent(ResultSet rs) throws SQLException {
         Student student = new Student();
-        student.setId(rs.getInt("id"));
-        student.setName(rs.getString("name"));
-        student.setStudent_Id(rs.getString("student_id"));
 
         return Student
                 .builder()
