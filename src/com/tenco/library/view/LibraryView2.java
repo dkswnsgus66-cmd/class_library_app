@@ -70,13 +70,12 @@ public class LibraryView2 {
             } catch (Exception e) {
                 System.out.println("오류 : " + e.getMessage());
             }
-
-
         }
     }
 
     // 10
     private void logout() {
+
         if (currentStudentId == null) {
             System.out.println("로그인 상태가 아닙니다.");
         } else {
@@ -115,28 +114,13 @@ public class LibraryView2 {
     //8 도서 반납
     private void returnBook() throws SQLException {
 
-        System.out.println("학번을 입력하세요: ");
-        String studentId = scanner.nextLine();
-
-        if(studentId.isEmpty()){
-            System.out.println("학번을 입력해 주세요");
+        if(currentStudentId == null){
+            System.out.println("먼저 로그인 해주세요");
+            return;
         }
+        int bookId = readInt("반납할 도서ID : ");
 
-        Student student = service.authenticateStudent(studentId);
-        if(student == null){
-            System.out.println("없는 학생입니다.");
-        }
-
-        System.out.println("책번호를 입력하세요");
-        String bookId = scanner.nextLine();
-        if(bookId.isEmpty()){
-            System.out.println("책번호를 입력해 주세요");
-        }
-
-        int psStudentId = Integer.parseInt(studentId);
-        int psBookId = Integer.parseInt(bookId);
-
-        service.returnBook(psStudentId,psBookId);
+        service.returnBook(currentStudentId,bookId);
         System.out.println("책이 반납 되었습니다 " + bookId + "번");
     }
 
@@ -152,9 +136,6 @@ public class LibraryView2 {
           System.out.println("빌린날짜: " + borrowList.get(i).getBorrow_Date());
           System.out.println("===================");
       }
-
-
-
     }
 
     //6 도서 대출
@@ -162,29 +143,16 @@ public class LibraryView2 {
         // 대출 하면 책 업데이트
 
         // 책 아이디 입력
-        System.out.print("책 아이디 입력: ");
-        String bookId = scanner.nextLine();
-        if(bookId.isEmpty()){
-            System.out.println("책 아이디 입력은 필수 입니다.");
-        }
+        int bookId = readInt("빌릴 책번호 입력:");
 
         // borrowBook 에는 학생 아이디가 등록된 아이디인지 검사하는 로직이 없다
 
-        System.out.print("학생아이디 입력: ");
-        String studentId = scanner.nextLine();
-
-        Student check = service.authenticateStudent(studentId);
-
-        if(studentId.isEmpty()){ // 아이디 검사
-            System.out.println("학생 아이디는 필수 입니다");
+        if(currentStudentId == null){
+            System.out.println("먼저 로그인 해주세요");
         }
-
-
-        int psBookId = Integer.parseInt(bookId);
-
         // 서비스에서 학생
         // 포랜키가 학번이 아니네?
-        service.borrowBook(psBookId,check.getId());
+        service.borrowBook(bookId,currentStudentId);
         System.out.println("책을 빌렸습니다 빌린 책번호: " + bookId + "번");
 
 
@@ -192,7 +160,6 @@ public class LibraryView2 {
 
     //5. 학생목록
     private List<Student> listStudents() throws SQLException {
-
 
 
         List<Student> studentList = service.getAllStudents();
@@ -214,7 +181,6 @@ public class LibraryView2 {
     //4. 학생등록
     private void addStudent() throws SQLException {
 
-
         System.out.print("학번입력: ");
         String studentId = scanner.nextLine();
         if(studentId.isEmpty()){
@@ -223,7 +189,7 @@ public class LibraryView2 {
         }
 
         System.out.print("학생이름 입력: ");
-        String studentName = scanner.nextLine();
+        String studentName = scanner.nextLine().trim();
         if(studentName.isEmpty()){
             System.out.println("학생이름 입력은 필수 입니다.");
             return;
@@ -233,7 +199,6 @@ public class LibraryView2 {
                 .student_Id(studentId)
                 .name(studentName)
                 .build();
-
 
         service.addStudent(student);
         System.out.println("학생 등록이 완료되었습니다 ");
@@ -258,7 +223,8 @@ public class LibraryView2 {
                 System.out.printf("ID: %2d | %-30s | %-15s | &s%n",
                         b.getId(),
                         b.getTitle(),
-                        b.getAuthor()
+                        b.getAuthor(),
+                        b.isAvailable() ? "대출가능" :"대출중"
                 );
             }
 
@@ -287,6 +253,7 @@ public class LibraryView2 {
 
     //1 . 도서추가
     private void addBook() throws SQLException {
+
         // 제목
         System.out.print("제목 : ");
         String title = scanner.nextLine().trim();

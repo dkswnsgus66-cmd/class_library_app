@@ -4,9 +4,11 @@ package com.tenco.library.service;
 // VIEW 계층(화면) -> Service 계층 --> Data 계층
 // 뷰 계층에서는 DAO를 직접 호출하지 말고 항상 Service를 통해서 접근한다.
 
+import com.tenco.library.dao.AdminDAO;
 import com.tenco.library.dao.BookDAO;
 import com.tenco.library.dao.BorrowDAO;
 import com.tenco.library.dao.StudentDAO;
+import com.tenco.library.dto.Admin;
 import com.tenco.library.dto.Book;
 import com.tenco.library.dto.Borrow;
 import com.tenco.library.dto.Student;
@@ -15,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class LibraryService {
+    private final AdminDAO adminDAO = new AdminDAO();
     private final BookDAO bookDAO = new BookDAO();
     private final StudentDAO studentDAO = new StudentDAO();
     private final BorrowDAO borrowDao = new BorrowDAO();
@@ -127,8 +130,18 @@ public class LibraryService {
     }
 
     // TODO 관리자 기능 추가 예정
+    // 관리자 인증 서비스 기능 추가
+    public Admin authenticateAdmin(String adminId, String password) throws SQLException{
+        if(adminId == null || adminId.trim().isEmpty()){
+            throw new SQLException("관리자 아이디를 입력 하세요"); // 어차피 오류 던지니까 리턴 아써도 된다
+        }
+        if(password == null || password.trim().isEmpty()){
+            throw new SQLException("관리자 아이디를 입력 하세요");
+        }
 
+        return adminDAO.authenAdmin(adminId,password);
 
+    }
 
 }
 
